@@ -2,7 +2,9 @@ package com.mforum.controller;
 
 import com.mforum.dto.AccessTokenDTO;
 import com.mforum.dto.GithubUser;
+import com.mforum.model.User;
 import com.mforum.provider.GithubProvider;
+import com.mforum.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,8 @@ import javax.servlet.http.HttpSession;
 public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
+    @Autowired
+    UserServiceImpl userService;
     @Value("${github.client.id}")
     private String clientID;
     @Value("${github.client.secret}")
@@ -26,8 +30,9 @@ public class AuthorizeController {
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
         if (githubUser!=null){
-            session.setAttribute("user",githubUser);
-            System.out.println(githubUser);
+            User user = userService.gitHubLogin(githubUser);
+            session.setAttribute("user",user);
+            System.out.println(user);
             return "redirect:/";
         }else {
             return "redirect:/";

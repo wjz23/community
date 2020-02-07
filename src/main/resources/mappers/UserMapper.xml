@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.mforum.mapper.UserMapper">
+	<resultMap id="UserMap" type="com.mforum.model.User">
+		<id property="id" column="id"/>
+		<result property="isDelete" column="is_delete" />
+		<result property="accountId" column="account_id" />
+		<result property="createUser" column="create_user" />
+		<result property="createTime" column="create_time" />
+		<result property="modifiedUser" column="modified_user" />
+		<result property="modifiedTime" column="modified_time" />
+	</resultMap>
+	
+	<!--用户信息插入-->
+	<!--Integer insert(User user);-->
+	<insert id="insert"
+			useGeneratedKeys="true"
+			keyProperty="id">
+		INSERT INTO Mforum_User (
+			password, salt, gender,
+			email, avatar, is_delete,
+			name, login, account_id, token,
+			create_user, create_time,
+			modified_user, modified_time
+		) VALUES (
+			#{password}, #{salt}, #{gender},
+			#{email},#{avatar}, #{isDelete},
+			#{name}, #{login}, #{accountId} ,#{token},
+			#{createUser}, #{createTime},
+			#{modifiedUser}, #{modifiedTime}
+		)
+	</insert>
+	<!--查询所有用户信息-->
+	<!--User selectAll()-->
+	<select id="selectAll" resultType="com.mforum.model.User">
+		select * from Mforum_User;
+	</select>
+	<!--根据githubid查询用户-->
+	<!--User selectByAccountId(String accountId);-->
+	<select id="selectByAccountId" resultType="com.mforum.model.User">
+		select * from Mforum_User where account_id = #{accountId}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
