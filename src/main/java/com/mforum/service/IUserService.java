@@ -3,6 +3,8 @@ package com.mforum.service;
 import com.mforum.dto.GithubUser;
 import com.mforum.model.User;
 import com.mforum.service.ex.InsertException;
+import com.mforum.service.ex.PassWordNotMatchException;
+import com.mforum.service.ex.UserNotFoundException;
 import com.mforum.service.ex.UsernameDuplicateException;
 
 /**
@@ -24,4 +26,14 @@ public interface IUserService {
      * @return
      */
     User gitHubLogin(GithubUser githubUser);
+
+    /**
+     * 用户登录
+     * @param login 用户名
+     * @param password 密码
+     * @return 返回user对象
+     * @throws PassWordNotMatchException 密码错误
+     * @throws UserNotFoundException 用户不存在
+     */
+    User login(String login,String password) throws PassWordNotMatchException, UserNotFoundException;
 }

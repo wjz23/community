@@ -21,4 +21,9 @@ public class UserServiceTest {
         User user = userService.gitHubLogin(githubUser);
         System.out.println(user);
     }
+    @Test
+    public void login(){
+        User user = userService.login("www","123");
+        System.err.println(user);
+    }
 }

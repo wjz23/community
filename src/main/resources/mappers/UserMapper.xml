@@ -42,6 +42,11 @@
 	<select id="selectByAccountId" resultType="com.mforum.model.User">
 		select * from Mforum_User where account_id = #{accountId}
 	</select>
+	<!--根据用户名查询用户-->
+	<!--User selectByLogin(String login)-->
+	<select id="selectByLogin" resultType="com.mforum.model.User">
+		select * from Mforum_User where login = #{login}
+	</select>
 </mapper>
 
 

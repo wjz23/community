@@ -26,4 +26,11 @@ public interface UserMapper {
      * @return
      */
     User selectByAccountId(Long accountId);
+
+    /**
+     * 根据用户名查询用户
+     * @param login
+     * @return
+     */
+    User selectByLogin(String login);
 }

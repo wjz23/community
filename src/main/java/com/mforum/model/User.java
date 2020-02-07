@@ -3,17 +3,17 @@ package com.mforum.model;
 import java.util.Objects;
 
 public class User extends BaseEntity{
-    Integer id;
-    String password;
-    String salt;
-    Integer gender;
-    String email;
-    String avatar;
-    Integer isDelete;
-    String name;
-    String login;
-    Long accountId;
-    String token;
+    private Integer id;
+    private String password;
+    private String salt;
+    private Integer gender;
+    private String email;
+    private String avatar;
+    private Integer isDelete;
+    private String name;
+    private String login;
+    private Long accountId;
+    private String token;
 
     public User() {
     }

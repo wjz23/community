@@ -30,6 +30,7 @@ public class AuthorizeController {
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
         if (githubUser!=null){
+            System.out.println(githubUser);
             User user = userService.gitHubLogin(githubUser);
             session.setAttribute("user",user);
             System.out.println(user);

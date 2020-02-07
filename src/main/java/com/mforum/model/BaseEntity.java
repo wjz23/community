@@ -5,10 +5,10 @@ import java.util.Date;
 
 public class BaseEntity implements Serializable {
 
-    String createUser;
-    Date createTime;
-    String modifiedUser;
-    Date modifiedTime;
+    private String createUser;
+    private Date createTime;
+    private String modifiedUser;
+    private Date modifiedTime;
 
     public String getCreateUser() {
         return createUser;

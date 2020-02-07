@@ -29,4 +29,9 @@ public class UserMapperTest {
         User user = userMapper.selectByAccountId(123L);
         System.out.println(user);
     }
+    @Test
+    public void selectByLogin(){
+        User user = userMapper.selectByLogin("wjz23");
+        System.err.println(user);
+    }
 }
