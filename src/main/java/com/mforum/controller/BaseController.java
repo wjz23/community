@@ -14,7 +14,7 @@ public class BaseController {
     /**
      * 操作成功的状态码
      */
-    public static final Integer SUCCESS = 200;
+    public static final Integer SUCCESS = 2000;
     /**
      * 从session中获取用户id
      */

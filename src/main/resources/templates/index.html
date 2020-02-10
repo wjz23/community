@@ -36,10 +36,10 @@
                 <li class="dropdown" th:if="${session.id != null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ><img th:src="${session.user.getAvatar()}"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li th:text="${session.login}">我</li>
+                        <li><a href="#"  th:text="${session.login}">我</a></li>
                         <li><a href="#">消息中心</a></li>
                         <li><a href="#">个人资料</a></li>
-                        <li><a href="#">退出登录</a></li>
+                        <li id="log-out"><a href="#">退出登录</a></li>
                     </ul>
                 </li>
                 <li th:if="${session.id == null}"><!-- Large modal -->
@@ -80,6 +80,7 @@
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
                                                     <button id="login-btn" type="submit" class="btn btn-default">登录</button>
+                                                    <a href=""><button id="reg" type="button" class="btn btn-default">注册</button></a>
                                                 </div>
                                             </div>
                                         </form>
@@ -109,9 +110,25 @@
                 "success":function (json) {
                     if (json.state == 2000){
                         alert("登录成功");
+                        window.location.reload()
                     }
                     else {
                         alert(json.message);
+                    }
+                }
+            })
+        })
+        $("#log-out").click(function () {
+            $.ajax({
+                "url":"users/logout",
+                "type":"post",
+                "success":function (json) {
+                    if (json.state == 2000){
+                        alert("退出成功")
+                        window.location.reload();
+                    }
+                    else {
+                        alert(json.message)
                     }
                 }
             })

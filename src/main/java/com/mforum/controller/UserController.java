@@ -33,4 +33,9 @@ public class UserController extends BaseController {
         session.setAttribute("user",user);
         return new JsonResult<User>(SUCCESS,user);
     }
+    @RequestMapping("logout")
+    public JsonResult<Void> logout(HttpSession session){
+        session.invalidate();
+        return new JsonResult<>(SUCCESS);
+    }
 }
