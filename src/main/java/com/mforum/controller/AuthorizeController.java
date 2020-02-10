@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class AuthorizeController {
+public class AuthorizeController extends BaseController{
     @Autowired
     private GithubProvider githubProvider;
     @Autowired
@@ -33,6 +33,8 @@ public class AuthorizeController {
             System.out.println(githubUser);
             User user = userService.gitHubLogin(githubUser);
             session.setAttribute("user",user);
+            session.setAttribute("id",user.getId());
+            session.setAttribute("login",user.getLogin());
             System.out.println(user);
             return "redirect:/";
         }else {

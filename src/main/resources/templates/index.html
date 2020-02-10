@@ -33,16 +33,16 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
 
-                <li class="dropdown" th:if="${session.user != null}">
+                <li class="dropdown" th:if="${session.id != null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ><img th:src="${session.user.getAvatar()}"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li th:text="${session.user.getLogin()}">我</li>
+                        <li th:text="${session.login}">我</li>
                         <li><a href="#">消息中心</a></li>
                         <li><a href="#">个人资料</a></li>
                         <li><a href="#">退出登录</a></li>
                     </ul>
                 </li>
-                <li th:if="${session.user == null}"><!-- Large modal -->
+                <li th:if="${session.id == null}"><!-- Large modal -->
                     <form class="navbar-form navbar-left">
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg">登录</button>
                     </form>
@@ -57,15 +57,15 @@
                                     <div class="row">
                                         <form id="login-form" class="form-horizontal">
                                             <div class="form-group">
-                                                <label for="inputEmail3" class="col-sm-2 control-label">账户</label>
+                                                <label for="username" class="col-sm-2 control-label">账户</label>
                                                 <div class="col-sm-10">
-                                                    <input type="email" class="form-control" id="inputEmail3" placeholder="username">
+                                                    <input type="text" class="form-control" id="username" placeholder="username" name="username">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+                                                <label for="password" class="col-sm-2 control-label">密码</label>
                                                 <div class="col-sm-10">
-                                                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                                                    <input type="password" class="form-control" id="password" placeholder="Password" name="password">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -101,7 +101,20 @@
 
     $(document).ready(function () {
         $("#login-btn").click(function () {
-
+            $.ajax({
+                "url":"users/login",
+                "data":$("#login-form").serialize(),
+                "type":"post",
+                "dataType":"json",
+                "success":function (json) {
+                    if (json.state == 2000){
+                        alert("登录成功");
+                    }
+                    else {
+                        alert(json.message);
+                    }
+                }
+            })
         })
     })
 

@@ -4,10 +4,7 @@ import com.mforum.dto.GithubUser;
 import com.mforum.mapper.UserMapper;
 import com.mforum.model.User;
 import com.mforum.service.IUserService;
-import com.mforum.service.ex.InsertException;
-import com.mforum.service.ex.PassWordNotMatchException;
-import com.mforum.service.ex.UserNotFoundException;
-import com.mforum.service.ex.UsernameDuplicateException;
+import com.mforum.service.ex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +45,10 @@ public class UserServiceImpl implements IUserService {
         if (user==null){
             throw new UserNotFoundException("登录失败,用户不存在");
         }
-        /*if (user.getIsDelete().equals(1)){
+        if (user.getAccountId()!=null){
+            throw new UserTypeException("该用户是GitHub账户,需用GitHub登录");
+        }
+        /*if (user.getIsDelete()==1){
             throw new UserNotFoundException("登录失败,用户不存在");
         }*/
         if (!user.getPassword().equals(password)){
