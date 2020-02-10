@@ -7,8 +7,11 @@ import com.mforum.service.IUserService;
 import com.mforum.service.ex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.util.Date;
+import java.util.UUID;
+
 @Service
 public class UserServiceImpl implements IUserService {
 
@@ -17,7 +20,28 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void reg(User user) throws UsernameDuplicateException, InsertException {
+        User result = userMapper.selectByLogin(user.getLogin());
+        if (result!=null){
+            throw new UsernameDuplicateException("注册失败,用户名已被占用");
+        }
+        System.err.println("reg() > password=" + user.getPassword());
+        String salt = UUID.randomUUID().toString().toUpperCase();
+        String md5Password = getMd5Password(user.getPassword(),salt);
+        user.setSalt(salt);
+        user.setPassword(md5Password);
+        System.err.println("reg() > salt=" + salt);
+        System.err.println("reg() > md5Password=" + md5Password);
 
+        user.setIsDelete(0);
+        Date date = new Date();
+        user.setCreateTime(date);
+        user.setCreateUser(user.getLogin());
+        user.setModifiedTime(date);
+        user.setModifiedUser(user.getLogin());
+        Integer rows = userMapper.insert(user);
+        if (rows!=1){
+            throw new InsertException("注册失败！写入数据时出现未知错误！请联系系统管理员！");
+        }
     }
 
     @Override
@@ -41,6 +65,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User login(String login, String password) throws PassWordNotMatchException, UserNotFoundException {
         User user = userMapper.selectByLogin(login);
+        String salt = user.getSalt();
         System.err.println(user);
         if (user==null){
             throw new UserNotFoundException("登录失败,用户不存在");
@@ -51,12 +76,26 @@ public class UserServiceImpl implements IUserService {
         /*if (user.getIsDelete()==1){
             throw new UserNotFoundException("登录失败,用户不存在");
         }*/
-        if (!user.getPassword().equals(password)){
+        if (!user.getPassword().equals(getMd5Password(password,salt))){
             throw new PassWordNotMatchException("登录失败,密码错误");
         }
         user.setPassword(null);
         user.setSalt(null);
         user.setIsDelete(null);
         return user;
+    }
+
+    /**
+     * 对密码进行加密
+     * @param password  原始密码
+     * @param salt 盐值
+     * @return 加密后的密码
+     */
+    private String getMd5Password(String password,String salt){
+        String str = password + salt;
+        for (int i = 0;i < 3;i++){
+            str= DigestUtils.md5DigestAsHex(str.getBytes()).toUpperCase();
+        }
+        return str;
     }
 }

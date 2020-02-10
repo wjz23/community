@@ -33,9 +33,26 @@ public class UserController extends BaseController {
         session.setAttribute("user",user);
         return new JsonResult<User>(SUCCESS,user);
     }
+
+    /**
+     * 用户登出
+     * @param session
+     * @return
+     */
     @RequestMapping("logout")
     public JsonResult<Void> logout(HttpSession session){
         session.invalidate();
-        return new JsonResult<>(SUCCESS);
+        return new JsonResult<Void>(SUCCESS);
+    }
+
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
+    @RequestMapping("reg")
+    public JsonResult<Void> reg(User user){
+        service.reg(user);
+        return new JsonResult<Void>(SUCCESS);
     }
 }
